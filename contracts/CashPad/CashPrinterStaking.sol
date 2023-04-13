@@ -41,10 +41,7 @@ contract CashPrinterStaking is Ownable {
         return poolInfo.length;
     }
 
-    function addPool(
-        IERC20 _stakeToken,
-        uint256 _apr
-    ) public onlyOwner {
+    function addPool(IERC20 _stakeToken, uint256 _apr) public onlyOwner {
         poolInfo.push(
             PoolInfo({
                 stakeToken: _stakeToken,
@@ -120,19 +117,16 @@ contract CashPrinterStaking is Ownable {
         uint realAmount = _amount.mul(90).div(100);
 
         // transfer withdrawal amount
-        pool.stakeToken.safeTransfer(address(msg.sender), realAmount.add(reward));
+        pool.stakeToken.safeTransfer(
+            address(msg.sender),
+            realAmount.add(reward)
+        );
         emit Withdraw(msg.sender, _pid, _amount);
     }
 
-    function getPoolInfo(uint256 _pid)
-        public
-        view
-        returns (
-            uint256,
-            uint256,
-            uint256
-        )
-    {
+    function getPoolInfo(
+        uint256 _pid
+    ) public view returns (uint256, uint256, uint256) {
         return (
             poolInfo[_pid].apr,
             poolInfo[_pid].totalTokenStaked,

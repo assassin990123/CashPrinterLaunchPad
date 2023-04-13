@@ -67,10 +67,10 @@ contract CashPad is Ownable, ReentrancyGuard {
         whitelist[pid][user].isActived = true;
     }
 
-    function addMulWhitelist(address[] memory user, uint256 pid)
-        public
-        onlyOwner
-    {
+    function addMulWhitelist(
+        address[] memory user,
+        uint256 pid
+    ) public onlyOwner {
         for (uint256 i = 0; i < user.length; i++) {
             whitelist[pid][user[i]].id = pid;
             whitelist[pid][user[i]].userAddress = user[i];
@@ -115,7 +115,10 @@ contract CashPad is Ownable, ReentrancyGuard {
         }
     }
 
-    function getUserStakingData(address user, uint256 poolId)
+    function getUserStakingData(
+        address user,
+        uint256 poolId
+    )
         public
         view
         returns (
@@ -129,9 +132,7 @@ contract CashPad is Ownable, ReentrancyGuard {
         return (cashPrinterStaking.userInfo(poolId, user));
     }
 
-    function addPool(
-        IDOPool memory _poolData
-    ) public onlyOwner {
+    function addPool(IDOPool memory _poolData) public onlyOwner {
         uint256 id = pools.length.add(1);
         pools.push(
             IDOPool({
@@ -188,7 +189,8 @@ contract CashPad is Ownable, ReentrancyGuard {
             pools[poolIndex].lockDuration = _poolData.lockDuration;
         }
         if (_poolData.minimumTokenSoldout > 0) {
-            pools[poolIndex].minimumTokenSoldout = _poolData.minimumTokenSoldout;
+            pools[poolIndex].minimumTokenSoldout = _poolData
+                .minimumTokenSoldout;
         }
         if (_poolData.poolType > 0) {
             pools[poolIndex].poolType = _poolData.poolType;
@@ -337,17 +339,17 @@ contract CashPad is Ownable, ReentrancyGuard {
         return tokenBalance.sub(pools[poolIndex].totalSold);
     }
 
-    function getBalanceTokenByPoolId(uint256 pid)
-        public
-        view
-        returns (uint256)
-    {
+    function getBalanceTokenByPoolId(
+        uint256 pid
+    ) public view returns (uint256) {
         uint256 poolIndex = pid.sub(1);
         //return pools[poolIndex].IDOToken.balanceOf(address(this));
         return pools[poolIndex].totalToken;
     }
 
-    function getPoolInfo(uint256 pid)
+    function getPoolInfo(
+        uint256 pid
+    )
         public
         view
         returns (
@@ -378,26 +380,16 @@ contract CashPad is Ownable, ReentrancyGuard {
         );
     }
 
-    function getPoolSoldInfo(uint256 pid)
-        public
-        view
-        returns (uint256, uint256)
-    {
+    function getPoolSoldInfo(
+        uint256 pid
+    ) public view returns (uint256, uint256) {
         uint256 poolIndex = pid.sub(1);
         return (pools[poolIndex].lockDuration, pools[poolIndex].totalSold);
     }
 
-    function getWhitelistInfo(uint256 pid)
-        public
-        view
-        returns (
-            address,
-            bool,
-            uint256,
-            uint256,
-            bool
-        )
-    {
+    function getWhitelistInfo(
+        uint256 pid
+    ) public view returns (address, bool, uint256, uint256, bool) {
         return (
             whitelist[pid][msg.sender].userAddress,
             whitelist[pid][msg.sender].isWhitelist,
@@ -407,16 +399,10 @@ contract CashPad is Ownable, ReentrancyGuard {
         );
     }
 
-    function getUserInfo(uint256 pid, address user)
-        public
-        view
-        returns (
-            bool,
-            uint256,
-            uint256,
-            bool
-        )
-    {
+    function getUserInfo(
+        uint256 pid,
+        address user
+    ) public view returns (bool, uint256, uint256, bool) {
         return (
             whitelist[pid][user].isWhitelist,
             whitelist[pid][user].totalTokenPurchase,
