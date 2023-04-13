@@ -10,7 +10,7 @@ async function main() {
         "gets automatically created and destroyed every time. Use the Hardhat " +
         " option '--network localhost'"
     );
-    
+      
   }
 
   // ethers is avaialble in the global scope
